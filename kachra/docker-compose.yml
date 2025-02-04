@@ -1,8 +1,8 @@
 services:
   kachra:
-    container_name: k
     build:
       context: "https://github.com/mradigen/kachra.git"
     pull_policy: build
     labels:
       - traefik.enable=true
+      - traefik.http.routers.kachra.rule=Host(`k.phy0.in`)

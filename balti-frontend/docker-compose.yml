@@ -4,7 +4,6 @@ services:
   balti:
     build:
       context: "https://github.com/mradigen/balti.git#main:frontend"
-      dockerfile: Dockerfile
     pull_policy: build
     labels:
       - traefik.enable=true

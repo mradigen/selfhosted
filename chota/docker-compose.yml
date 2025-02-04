@@ -10,9 +10,9 @@ services:
     depends_on:
       - postgres
     restart: on-failure
-    container_name: c
     labels:
-      - "traefik.enable=true"
+      - traefik.enable=true
+      - traefik.http.routers.chota.rule=Host(`c.phy0.in`)
 
   postgres:
     image: postgres:latest
