@@ -29,5 +29,5 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.services.traefik.loadbalancer.server.port=8080
-      - traefik.http.middlewares.tailscale.ipallowlist.sourcerange=178.212.35.192/32,100.64.0.0/10,127.0.0.1/8,172.17.0.1/16
+      - traefik.http.middlewares.tailscale.ipallowlist.sourcerange=${TAILSCALE_ALLOWED_IPS}
       - traefik.http.routers.traefik.middlewares=tailscale@docker
