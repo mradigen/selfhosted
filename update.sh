@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # Currently a very rudimentary script
-
 set -e
+
+git stash
+git pull
 
 source .env
 stacks=$(ls -d */)
