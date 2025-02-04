@@ -9,7 +9,7 @@ services:
       - ${DATA_PATH}/minio-data:/data
     labels:
       - traefik.enable=true
-      - traefik.http.routers.minio.rule=Host(`b.phy0.in`) && PathPrefix(`/`)
+      - traefik.http.routers.minio.rule=Host(`b.phy0.in`) && PathPrefix(`/balti`)
 
   minio-provision:
     image: minio/mc
