@@ -1,38 +1,38 @@
 services:
-    broker:
-        image: docker.io/library/redis:7
-        restart: unless-stopped
-        volumes:
-            - ${DATA_PATH}/redis:/data
+  broker:
+    image: docker.io/library/redis:7
+    restart: unless-stopped
+    volumes:
+      - ${DATA_PATH}/redis:/data
 
-    db:
-        image: docker.io/library/postgres:16
-        restart: unless-stopped
-        volumes:
-            - ${DATA_PATH}/db:/var/lib/postgresql/data
-        environment:
-            POSTGRES_DB: paperless
-            POSTGRES_USER: paperless
-            POSTGRES_PASSWORD: paperless
+  db:
+    image: docker.io/library/postgres:16
+    restart: unless-stopped
+    volumes:
+      - ${DATA_PATH}/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
 
-    webserver:
-        container_name: locker
-        image: ghcr.io/paperless-ngx/paperless-ngx:latest
-        restart: unless-stopped
-        depends_on:
-            - db
-            - broker
-        volumes:
-            - ${DATA_PATH}/data:/usr/src/paperless/data
-            - ${DATA_PATH}/media:/usr/src/paperless/media
-            - ${DATA_PATH}/export:/usr/src/paperless/export
-            - ${DATA_PATH}/consume:/usr/src/paperless/consume
-        env_file: stack.env
-        environment:
-            PAPERLESS_REDIS: redis://broker:6379
-            PAPERLESS_DBHOST: db
-            USERMAP_UID: 1000
-            USERMAP_GID: 100
-        labels:
-            - 'traefik.enable=true'
-            - 'traefik.http.routers.locker.middlewares=tailscale'
+  webserver:
+    container_name: locker
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+      - broker
+    volumes:
+      - ${DATA_PATH}/data:/usr/src/paperless/data
+      - ${DATA_PATH}/media:/usr/src/paperless/media
+      - ${DATA_PATH}/export:/usr/src/paperless/export
+      - ${DATA_PATH}/consume:/usr/src/paperless/consume
+    env_file: .env
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      USERMAP_UID: 1000
+      USERMAP_GID: 100
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.locker.middlewares=tailscale'
