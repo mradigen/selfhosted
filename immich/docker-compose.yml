@@ -12,7 +12,7 @@ services:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - stack.env
+      - .env
     depends_on:
       - redis
       - database
@@ -33,7 +33,7 @@ services:
     volumes:
       - model-cache:/cache
     env_file:
-      - stack.env
+      - .env
     restart: always
     healthcheck:
       disable: false
