@@ -1,7 +1,7 @@
 services:
   chota:
     build:
-      context: "https://github.com/mradigen/chota"
+      context: "https://github.com/mradigen/chota.git"
     pull_policy: build
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres/chota?sslmode=disable
