@@ -1,6 +1,6 @@
 # Self-Hosted Infrastructure as Code
 
-This repository contains the configuration and code for my self-hosted services, managed using Infrastructure as Code (IaC) principles. Below is a list of the services included, along with their purposes and official websites.
+This repository contains the configuration and code for my self-hosted services, managed using Infrastructure as Code principles.
 
 | Purpose              | Service                                                |
 | -------------------- | ------------------------------------------------------ |
@@ -22,7 +22,5 @@ This repository contains the configuration and code for my self-hosted services,
 - [ ] Ansible playbook instead of `update.sh`
 - [ ] Migrate firewall config as well
 - [ ] Automate using Github Actions, ArgoCD, or n8n
-
-Each directory contains the necessary configuration files and scripts to deploy and manage the respective service. Please refer to the individual directories for more detailed information on setting up and using each service.
 
 For any questions or issues, feel free to open an issue in this repository.
