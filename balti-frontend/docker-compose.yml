@@ -1,0 +1,11 @@
+# The build part might fail, test later
+
+services:
+  balti:
+    build:
+      context: "https://github.com/mradigen/balti"
+      dockerfile: frontend/Dockerfile
+    pull_policy: build
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.balti.rule=Host(`b.phy0.in`) && Path(`/`)

@@ -1,0 +1,33 @@
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:v3.3
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.defaultRule=Host(`{{ normalize .ContainerName }}.phy0.in`)"
+      - "--entryPoints.http.address=:80"
+      - "--entryPoints.http.http.redirections.entryPoint.to=https"
+      - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
+      - "--entryPoints.https.address=:443"
+      - "--entryPoints.https.http.tls.certResolver=letsencrypt"
+      - "--entryPoints.https.http.tls.domains[0].main=phy0.in"
+      - "--entryPoints.https.http.tls.domains[0].sans=*.phy0.in"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    network_mode: host
+    environment:
+      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - ${DATA_PATH}/letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - traefik.http.middlewares.tailscale.ipallowlist.sourcerange=178.212.35.192/32,100.64.0.0/10,127.0.0.1/8,172.17.0.1/16
+      - traefik.http.routers.traefik.middlewares=tailscale@docker

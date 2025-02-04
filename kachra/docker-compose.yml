@@ -1,0 +1,8 @@
+services:
+  kachra:
+    container_name: k
+    build:
+      context: "https://github.com/mradigen/kachra"
+    pull_policy: build
+    labels:
+      - traefik.enable=true

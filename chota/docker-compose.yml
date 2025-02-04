@@ -1,0 +1,27 @@
+services:
+  chota:
+    build:
+      context: "https://github.com/mradigen/chota"
+    pull_policy: build
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres/chota?sslmode=disable
+      - STORAGE_MODE=postgres
+      - BIND_ADDRESS=0.0.0.0
+    depends_on:
+      - postgres
+    restart: on-failure
+    container_name: c
+    labels:
+      - "traefik.enable=true"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=chota
+    healthcheck:
+      test: [ 'CMD', 'pg_isready', '-U', 'postgres' ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+      start_period: 30s

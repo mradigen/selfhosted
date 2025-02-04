@@ -1,0 +1,23 @@
+services:
+  minio:
+    image: minio/minio
+    ports:
+      - ${MINIO_PORT}:9000
+      - 9001
+    command: server /data --console-address ":9001"
+    volumes:
+      - ${BALTI_PATH}/minio-data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.minio.rule=Host(`b.phy0.in`) && PathPrefix(`/`)
+
+  minio-provision:
+    image: minio/mc
+    depends_on:
+      - minio
+    volumes:
+      - ${BALTI_PATH}/minio-provision.sh:/minio-provision.sh:ro
+      - ${BALTI_PATH}/lifecycle_expiry.json:/lifecycle_expiry.json:ro
+      - ${BALTI_PATH}/bucket_policy.json:/bucket_policy.json:ro
+      - ${BALTI_PATH}/minio-data:/data
+    entrypoint: sh /minio-provision.sh
