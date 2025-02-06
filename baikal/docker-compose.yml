@@ -5,5 +5,6 @@ services:
     volumes:
       - ${DATA_PATH}/config:/var/www/baikal/config
       - ${DATA_PATH}/data:/var/www/baikal/Specific
+    container_name: dav
     labels:
       - "traefik.enable=true"
