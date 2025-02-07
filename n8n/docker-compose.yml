@@ -1,14 +1,14 @@
 services:
-    n8n:
-        image: docker.n8n.io/n8nio/n8n
-        restart: always
-        labels:
-            - traefik.enable=true
-        environment:
-            - N8N_HOST=${DOMAIN}
-            - NODE_ENV=production
-            - WEBHOOK_URL=https://${DOMAIN}/
-            - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
-		container_name: n8n
-        volumes:
-            - ${DATA_PATH}:/home/node/.n8n
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    labels:
+      - traefik.enable=true
+    environment:
+      - N8N_HOST=${DOMAIN}
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://${DOMAIN}/
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+    container_name: n8n
+    volumes:
+      - ${DATA_PATH}:/home/node/.n8n
