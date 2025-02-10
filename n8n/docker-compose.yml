@@ -5,10 +5,10 @@ services:
     labels:
       - traefik.enable=true
     environment:
-      - N8N_HOST=${DOMAIN}
+      - N8N_HOST=${DOMAIN:?}
       - NODE_ENV=production
-      - WEBHOOK_URL=https://${DOMAIN}/
-      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - WEBHOOK_URL=https://${DOMAIN:?}/
+      - GENERIC_TIMEZONE
     container_name: n8n
     volumes:
-      - ${DATA_PATH}:/home/node/.n8n
+      - ${DATA_PATH:?}:/home/node/.n8n

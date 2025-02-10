@@ -9,7 +9,7 @@ services:
     image: docker.io/library/postgres:16
     restart: unless-stopped
     volumes:
-      - ${DATA_PATH}/db:/var/lib/postgresql/data
+      - ${DATA_PATH:?}/db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
@@ -23,10 +23,10 @@ services:
       - db
       - broker
     volumes:
-      - ${DATA_PATH}/data:/usr/src/paperless/data
-      - ${DATA_PATH}/media:/usr/src/paperless/media
-      - ${DATA_PATH}/export:/usr/src/paperless/export
-      - ${DATA_PATH}/consume:/usr/src/paperless/consume
+      - ${DATA_PATH:?}/data:/usr/src/paperless/data
+      - ${DATA_PATH:?}/media:/usr/src/paperless/media
+      - ${DATA_PATH:?}/export:/usr/src/paperless/export
+      - ${DATA_PATH:?}/consume:/usr/src/paperless/consume
     env_file: .env
     environment:
       PAPERLESS_REDIS: redis://broker:6379

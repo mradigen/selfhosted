@@ -21,10 +21,10 @@ services:
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
     network_mode: host
     environment:
-      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
+      - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN:?}
     volumes:
       # So that Traefik can listen to the Docker events
-      - ${DATA_PATH}/letsencrypt:/letsencrypt
+      - ${DATA_PATH:?}/letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - traefik.enable=true
