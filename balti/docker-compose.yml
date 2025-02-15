@@ -1,7 +1,6 @@
 services:
   balti:
     image: ghcr.io/mradigen/balti
-    pull_policy: build
     labels:
       - traefik.enable=true
       - traefik.http.routers.balti.rule=Host(`b.phy0.in`)

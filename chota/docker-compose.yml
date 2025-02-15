@@ -1,8 +1,6 @@
 services:
   chota:
-    build:
-      context: "https://github.com/mradigen/chota.git"
-    pull_policy: build
+    image: ghcr.io/mradigen/chota
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres/chota?sslmode=disable
       - STORAGE_MODE=postgres
