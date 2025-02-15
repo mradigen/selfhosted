@@ -1,7 +1,6 @@
 services:
   kachra:
-    build:
-      context: "https://github.com/mradigen/kachra.git"
+    image: ghcr.io/mradigen/kachra
     pull_policy: build
     labels:
       - traefik.enable=true
