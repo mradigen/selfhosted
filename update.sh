@@ -3,6 +3,18 @@
 # Currently a very rudimentary script
 set -e
 
+update_env() {
+	local ENV_FILE=".env"
+	local VAR_NAME="$1"
+	local NEW_VALUE="$2"
+
+	if grep -q "^$VAR_NAME=" "$ENV_FILE"; then
+		sed -i "s|^$VAR_NAME=.*|$VAR_NAME=$NEW_VALUE|" "$ENV_FILE"
+	else
+		echo "$VAR_NAME=$NEW_VALUE" >> "$ENV_FILE"
+	fi
+}
+
 # Fetch global environment variables
 source .env
 stacks=$(ls -d */ | sed 's:/$::')
@@ -20,17 +32,7 @@ done
 git stash
 git pull
 
-update_env() {
-	local ENV_FILE=".env"
-	local VAR_NAME="$1"
-	local NEW_VALUE="$2"
-
-	if grep -q "^$VAR_NAME=" "$ENV_FILE"; then
-		sed -i "s|^$VAR_NAME=.*|$VAR_NAME=$NEW_VALUE|" "$ENV_FILE"
-	else
-		echo "$VAR_NAME=$NEW_VALUE" >> "$ENV_FILE"
-	fi
-}
+stacks=$(ls -d */ | sed 's:/$::')
 
 # Start them back up
 for stack in ${stacks}
