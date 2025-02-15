@@ -1,5 +1,3 @@
-# The build part might fail, test later
-
 services:
   balti:
     image: ghcr.io/mradigen/balti
