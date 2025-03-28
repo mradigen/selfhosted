@@ -9,4 +9,4 @@ services:
       - ${DATA_PATH:?}:/data/
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.pass.middlewares=tailscale'
+      # - 'traefik.http.routers.pass.middlewares=tailscale'

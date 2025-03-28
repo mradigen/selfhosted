@@ -1,6 +1,6 @@
 services:
   headscale:
-    image: headscale/headscale:0.24.2
+    image: headscale/headscale:0.25.1
     restart: unless-stopped
     container_name: headscale
     expose:
