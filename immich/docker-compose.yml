@@ -20,7 +20,7 @@ services:
     healthcheck:
       disable: false
     labels:
-      - "traefik.enable=true"
+      - traefik.enable=true
 
   immich-machine-learning:
     container_name: immich_machine_learning
