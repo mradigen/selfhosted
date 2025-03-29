@@ -3,9 +3,11 @@ services:
     image: ghcr.io/mradigen/tui_suite
     volumes:
       - docker_cache:/var/lib/docker
+      - ssh_keys:/etc/ssh
     privileged: true
     ports:
       - 22:22
 
 volumes:
   docker_cache:
+  ssh_keys:
