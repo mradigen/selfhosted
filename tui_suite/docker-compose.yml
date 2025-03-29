@@ -1,8 +1,11 @@
 services:
   tui_suite:
     image: ghcr.io/mradigen/tui_suite
-    container_name: tui_suite
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - docker_cache:/var/lib/docker
+    privileged: true
     ports:
       - 22:22
+
+volumes:
+  docker_cache:
