@@ -4,6 +4,7 @@ services:
     volumes:
       - docker_cache:/var/lib/docker
       - ssh_keys:/etc/ssh
+      - ./.runtimefs:/home/tui_suite/.runtimefs
     privileged: true
     ports:
       - 22:22
