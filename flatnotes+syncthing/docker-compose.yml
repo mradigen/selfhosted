@@ -1,0 +1,33 @@
+services:
+  syncthing:
+    image: syncthing/syncthing
+    hostname: my-syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ${DATA_PATH}:/var/syncthing
+    network_mode: host
+    restart: unless-stopped
+    healthcheck:
+      test: curl -fkLsS -m 2 127.0.0.1:8384/rest/noauth/health | grep -o --color=never OK || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  flatnotes:
+    container_name: notes
+    image: gedulis12/flatnotes:latest
+    environment:
+      PUID: 1000
+      PGID: 1000
+      FLATNOTES_AUTH_TYPE: ${FLATNOTES_AUTH_TYPE}
+      FLATNOTES_USERNAME: ${FLATNOTES_USERNAME}
+      FLATNOTES_PASSWORD: ${FLATNOTES_PASSWORD}
+      FLATNOTES_TOTP_KEY: ${FLATNOTES_TOTP_KEY}
+      FLATNOTES_SECRET_KEY: ${FLATNOTES_SECRET_KEY}
+    volumes:
+      - ${DATA_PATH}:/data
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
