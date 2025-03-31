@@ -19,7 +19,7 @@ setup_filesystem() {
     echo "Setting up filesystem..."
     # This is to prevent users from creating very large files
     dd if=/dev/zero of=./runtimefs_disk.img bs=1M count=20
-    mkfs.ext4 ./runtimefs_disk.img
+    sudo mkfs.ext4 ./runtimefs_disk.img
     mkdir -p /tmp/tui_suite_runtimefs
     sudo mount ./runtimefs_disk.img /tmp/tui_suite_runtimefs
     if [ -d ./.runtimefs ]; then
