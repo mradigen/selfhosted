@@ -15,11 +15,12 @@ services:
       - "--entryPoints.https.http.tls.certResolver=letsencrypt"
       - "--entryPoints.https.http.tls.domains[0].main=phy0.in"
       - "--entryPoints.https.http.tls.domains[0].sans=*.phy0.in"
+      - "--entryPoints.http.transport.respondingTimeouts.readTimeout=60m"
+      - "--entryPoints.https.transport.respondingTimeouts.readTimeout=60m"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-      - "--entryPoints.name.transport.respondingTimeouts.readTimeout=20m"
     network_mode: host
     environment:
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN:?}
