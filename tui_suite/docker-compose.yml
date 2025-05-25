@@ -8,6 +8,7 @@ services:
     privileged: true
     ports:
       - 22:22
+    restart: unless-stopped
 
 volumes:
   docker_cache:
