@@ -6,7 +6,8 @@ services:
     expose:
       - 8080
     volumes:
-      - ${DATA_PATH:?}:/etc/headscale
+      - ${DATA_PATH:?}/config:/etc/headscale
+      - ${DATA_PATH:?}/data:/var/lib/headscale
     command: serve
     labels:
       - 'traefik.enable=true'

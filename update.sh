@@ -17,7 +17,7 @@ update_env() {
 
 # Fetch global environment variables
 source .env
-stacks=(baikal balti-minio chota immich paperless-ng traefik vaultwarden balti borgmatic headscale kachra n8n tui_suite)
+stacks=(baikal balti balti-minio borgmatic chota flatnotes+syncthing headscale immich kachra n8n paperless-ng traefik tui_suite vaultwarden)
 
 # Stop all services:
 for stack in ${stacks[@]}
@@ -32,7 +32,7 @@ done
 git stash
 git pull
 
-stacks=(baikal balti-minio chota immich paperless-ng traefik vaultwarden balti borgmatic headscale kachra n8n tui_suite)
+stacks=(baikal balti balti-minio borgmatic chota flatnotes+syncthing headscale immich kachra n8n paperless-ng traefik tui_suite vaultwarden)
 
 # Start them back up
 for stack in ${stacks[@]}
