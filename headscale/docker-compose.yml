@@ -10,11 +10,13 @@ services:
       - ${DATA_PATH:?}/data:/var/lib/headscale
     command: serve
     labels:
-      - 'traefik.enable=true'
+      - traefik.enable=true
 
   headscale-admin:
     image: goodieshq/headscale-admin:latest
     container_name: headscale-admin
     restart: unless-stopped
     labels:
-      - 'traefik.enable=true'
+      - traefik.enable=true
+      - traefik.http.routers.headscale-admin.rule=Host(`headscale.phy0.in`) && PathPrefix(`/admin`)
+      - traefik.http.routers.headscale-admin.middlewares=tailscale
