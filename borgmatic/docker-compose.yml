@@ -13,3 +13,4 @@ services:
       - BACKUP_CRON
       - TZ
       - BORG_PASSPHRASE
+    restart: always

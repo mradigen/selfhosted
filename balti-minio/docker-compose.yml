@@ -7,6 +7,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.minio.rule=Host(`b.phy0.in`) && PathPrefix(`/balti`)
+    restart: unless-stopped
 
   minio-provision:
     image: minio/mc
