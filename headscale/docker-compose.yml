@@ -19,4 +19,3 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.headscale-admin.rule=Host(`headscale.phy0.in`) && PathPrefix(`/admin`)
-      - traefik.http.routers.headscale-admin.middlewares=tailscale
