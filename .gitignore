@@ -1,1 +1,25 @@
+# Ansible
+*.retry
+inventory.ini
+
+# Docker Compose
 .env
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform*
+.crash
+*.tfvars
+terraform.tfvars.json
+override.tf
+override.tf.json
+*.backup
+*.log
+
+# Packer
+packer_cache/
+*.box
+output-*
+*downloaded_iso_path*
+credentials.pkr.hcl

@@ -1,0 +1,26 @@
+- name: Install Tailscale
+  shell: curl -fsSL https://tailscale.com/install.sh | sh
+  args:
+    creates: /usr/sbin/tailscaled
+
+- name: Enable and start tailscaled
+  systemd:
+    name: tailscaled
+    enabled: yes
+    state: started
+
+- name: Run Tailscale with Headscale auth
+  shell: >
+    tailscale up --login-server="https://headscale.phy0.in"
+    --advertise-exit-node
+    --authkey "{{ tailscale_preauthkey | mandatory }}"
+  register: tailscale_output
+  changed_when: "'Success' in tailscale_output.stdout"
+
+- name: Add tailscale0 to trusted zone
+  firewalld:
+    zone: trusted
+    interface: tailscale0
+    permanent: yes
+    immediate: yes
+    state: enabled

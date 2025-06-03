@@ -1,0 +1,13 @@
+- name: Ensure {{ username }} user exists
+  user:
+    name: "{{ username | mandatory }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    create_home: yes
+
+- name: Set authorized key taken from file
+  authorized_key:
+    user: adigen
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') | mandatory }}"

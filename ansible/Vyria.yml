@@ -1,0 +1,29 @@
+- name: Setup Vyria VM
+  hosts: vyria
+  become: true
+  vars:
+    username: adigen
+    ssh_port: "{{ lookup('env', 'SSH_PORT') }}"
+    network_interface: ens18
+    tailscale_preauthkey: "{{ lookup('env', 'TAILSCALE_PREAUTHKEY') }}"
+
+  tasks:
+    - import_tasks: tasks/firewalld.yml
+    - import_tasks: tasks/utils.yml
+    - import_tasks: tasks/user.yml
+    - import_tasks: tasks/docker.yml
+    - import_tasks: tasks/tailscale.yml
+
+    - name: Open HTTP in firewalld
+      firewalld:
+        port: 80/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+    - name: Open HTTPS in firewalld
+      firewalld:
+        port: 443/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled

@@ -1,0 +1,54 @@
+- name: Install dependencies for Docker
+  apt:
+    name:
+      - ca-certificates
+      - curl
+    state: present
+    update_cache: yes
+
+- name: Create Docker keyring directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Add Docker GPG key
+  get_url:
+    url: https://download.docker.com/linux/debian/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+
+- name: Add Docker APT repository
+  copy:
+    dest: /etc/apt/sources.list.d/docker.list
+    content: |
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable
+
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: present
+    update_cache: true
+
+- name: Add {{ username }} user to Docker group
+  user:
+    name: "{{ username | mandatory }}"
+    groups: docker
+    append: yes
+
+- name: Configure Docker to use Firewalld
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "iptables": false,
+        "ip6tables": false,
+        "dns": [ "1.1.1.1", "8.8.8.8" ]
+      }
+
+- name: Ensure firewalld uses iptables as its backend
+  ini_file:
+    path: /etc/firewalld/firewalld.conf
+    option: FirewallBackend
+    value: iptables
+    backup: yes
