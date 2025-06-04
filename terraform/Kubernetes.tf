@@ -21,7 +21,7 @@ resource "proxmox_vm_qemu" "Kubernetes1" {
   cpu {
     type = "x86-64-v2-AES"
     sockets = 1
-    cores = 4
+    cores = 2
   }
 
   memory = 2048
