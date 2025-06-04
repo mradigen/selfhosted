@@ -1,0 +1,9 @@
+- name: Setup Kubernetes1
+  hosts: kubernetes1
+  become: true
+  vars:
+    k3s_url: "{{ lookup('env', 'K3S_URL') }}"
+    k3s_token: "{{ lookup('env', 'K3S_TOKEN') }}"
+
+  tasks:
+    - import_tasks: tasks/k3s.yml

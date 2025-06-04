@@ -1,3 +1,21 @@
+variable "vyria_username" {
+  type      = string
+}
+
+variable "vyria_root_sshkey" {
+  type      = string
+}
+
+variable "vyria_ipconfig0" {
+  type      = string
+  default = ""
+}
+
+variable "vyria_ssh_port" {
+  type      = number
+  default = 22
+}
+
 resource "proxmox_vm_qemu" "Vyria" {
   name = "Vyria"
   desc = "Main Debian node running all services through Docker Compose"

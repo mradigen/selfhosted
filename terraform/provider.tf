@@ -25,29 +25,6 @@ variable "proxmox_api_token_secret" {
   sensitive = true
 }
 
-variable "vyria_username" {
-  type      = string
-}
-
-variable "vyria_root_sshkey" {
-  type      = string
-}
-
-variable "vyria_ipconfig0" {
-  type      = string
-  default = ""
-}
-
-variable "vyria_ssh_port" {
-  type      = number
-  default = 22
-}
-
-variable "homeassistant_ipconfig0" {
-  type      = string
-  default = ""
-}
-
 provider "proxmox" {
 
   # Proxmox

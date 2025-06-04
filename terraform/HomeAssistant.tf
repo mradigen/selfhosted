@@ -1,3 +1,8 @@
+variable "homeassistant_ipconfig0" {
+  type      = string
+  default = ""
+}
+
 resource "proxmox_vm_qemu" "HomeAssistant" {
 	name        = "HomeAssistant"
 	vmid = "109"

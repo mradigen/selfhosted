@@ -46,9 +46,17 @@
         "dns": [ "1.1.1.1", "8.8.8.8" ]
       }
 
+# - name: Ensure firewalld uses iptables as its backend
+#   ini_file:
+#     path: /etc/firewalld/firewalld.conf
+#     option: FirewallBackend
+#     value: iptables
+#     backup: yes
 - name: Ensure firewalld uses iptables as its backend
-  ini_file:
+  lineinfile:
     path: /etc/firewalld/firewalld.conf
-    option: FirewallBackend
-    value: iptables
+    regexp: '^#?FirewallBackend'
+    line: "FirewallBackend=iptables"
     backup: yes
+
+## IMPORTANT, need to add docker0 to trusted zone, but cant do that before docker0 is created by docker daemon

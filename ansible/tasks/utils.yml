@@ -7,6 +7,7 @@
       - screen
       - sudo
       - ranger
+      - neovim
     state: present
     update_cache: true
 
