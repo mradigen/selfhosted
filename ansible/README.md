@@ -23,7 +23,3 @@ ansible/
         ├── user.yml
         └── utils.yml
 ```
-
-## TODO
-
-- [ ] Playbook to update and upgrade all nodes

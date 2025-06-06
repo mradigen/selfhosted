@@ -17,10 +17,10 @@ This repository contains the configuration and code for my self-hosted services,
 
 ## TODO
 
-- [ ] HashiCorp Vault for secrets management
+- [x] HashiCorp Vault for secrets management
 - [x] Make all environment variables forcefully required (so that Docker fails if they are empty)
-- [ ] Ansible playbook instead of `update.sh`
-- [ ] Migrate firewall config as well
+- [x] Ansible playbook instead of `update.sh`
+- [x] Migrate firewall config as well
 - [x] Automate using Github Actions, ArgoCD, or n8n
 
 For any questions or issues, feel free to open an issue in this repository.
