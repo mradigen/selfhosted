@@ -1,0 +1,16 @@
+- name: Update and upgrade
+  hosts: all
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: true
+
+    - name: Remove unnecessary packages
+      apt:
+        autoremove: true
+        purge: true

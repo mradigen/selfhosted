@@ -1,4 +1,4 @@
-- name: Ensure {{ username }} user exists
+- name: "Ensure {{ username }} user exists"
   user:
     name: "{{ username | mandatory }}"
     shell: /bin/bash
