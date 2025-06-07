@@ -1,0 +1,20 @@
+- name: Install firewalld
+  apt:
+    name: firewalld
+    state: present
+
+- name: Add masquerade rule to public zone
+  firewalld:
+    zone: public
+    masquerade: yes
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Add {{ network_interface }} to public zone
+  firewalld:
+    zone: public
+    interface: "{{ network_interface }}"
+    permanent: yes
+    immediate: yes
+    state: enabled

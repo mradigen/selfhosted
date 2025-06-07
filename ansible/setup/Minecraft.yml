@@ -1,0 +1,20 @@
+- name: Setup Vyria VM
+  hosts: minecraft
+  become: true
+  vars:
+    username: adigen
+    ssh_port: "{{ lookup('env', 'SSH_PORT') }}"
+    network_interface: ens18
+
+  tasks:
+    - import_tasks: tasks/firewalld.yml
+    - import_tasks: tasks/utils.yml
+    - import_tasks: tasks/user.yml
+    - import_tasks: tasks/docker.yml
+
+    - name: Open 25565 in firewalld
+      firewalld:
+        port: 25565/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled

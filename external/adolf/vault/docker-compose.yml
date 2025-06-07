@@ -1,0 +1,15 @@
+services:
+  vault:
+    image: hashicorp/vault:1.15
+    ports:
+      - 8200:8200
+    volumes:
+      - ./logs:/vault/logs/:rw
+      - ./data:/vault/data/:rw
+      - ./config:/vault/config/:rw
+      - ./certs:/certs/:rw
+      - ./file:/vault/file/:rw
+    cap_add:
+      - IPC_LOCK
+    restart: always
+    command: "server"

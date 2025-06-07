@@ -1,0 +1,32 @@
+- name: Docker related tasks like environment variable fetching and updating
+  hosts: "{{ target_host | default('vyria') }}"
+
+  vars:
+    docker_services:
+      - baikal
+      - balti
+      - balti-minio
+      - borgmatic
+      - chota
+      - flatnotes+syncthing
+      - headscale
+      - immich
+      - kachra
+      - n8n
+      - paperless-ng
+      - traefik
+      - tui_suite
+      - vaultwarden
+
+    docker_home_path: "/home/adigen/docker"
+    update_all_services: false
+
+    vault_addr: "{{ lookup('env','VAULT_ADDR') }}"    # Not used as ansible_hashi_vault_url is set in inventory.ini
+    vault_token: "{{ lookup('env','VAULT_TOKEN') }}"  # Not used as ansible_hashi_vault_token is set in inventory.ini
+
+  tasks:
+    - name: Fetch and set vars
+      loop: "{{ docker_services }}"
+      include_tasks: tasks/docker-env-vars.yml
+      vars:
+        service_name: "{{ item }}"

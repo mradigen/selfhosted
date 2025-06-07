@@ -1,0 +1,8 @@
+[vyria]
+192.168.xx.xxx ansible_user=xxxx ansible_port=xx ansible_ssh_private_key_file=~/.ssh/id_xxx ansible_hashi_vault_token=xxx ansible_hashi_vault_url=xxxxx
+
+[kubernetes1]
+192.168.xx.xxx ansible_user=xxxx ansible_port=xx ansible_ssh_private_key_file=~/.ssh/id_xxx ansible_sudo_pass=xxx
+
+[xxx]
+192.168.xx.xxx ansible_user=xxxx ansible_port=xx ansible_ssh_private_key_file=~/.ssh/id_xxx ansible_sudo_pass=xxx
