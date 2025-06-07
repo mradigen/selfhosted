@@ -113,6 +113,7 @@ Each directory contains its own README with detailed information about the confi
 ## 📌 **To-Do**
 
 - [x] Readme
+- [ ] Make Terraform and Packer fetch secrets from Vault
 - [ ] Setup a CI/CD pipeline
 - [ ] Migrate services to k3s
 
