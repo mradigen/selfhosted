@@ -10,6 +10,7 @@ variable "minecraft_ipconfig0" {
 resource "proxmox_vm_qemu" "Minecraft" {
   name = "Minecraft"
   target_node = "Vyria"
+  vmid = 103
 
   onboot = true
   # QEMU agent
