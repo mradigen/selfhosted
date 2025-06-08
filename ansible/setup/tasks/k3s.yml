@@ -1,6 +1,6 @@
 - name: Install k3s agent (or join existing cluster)
   shell: |
-    wget -qO- https://get.k3s.io | K3S_URL={{ k3s_url }} K3S_TOKEN={{ k3s_token }} sh -
+    wget -qO- https://get.k3s.io | K3S_URL={{ k3s_url }} K3S_TOKEN={{ k3s_token }} sh -s - server --cluster-cidr=10.42.0.0/16,2001:cafe:42::/56 --service-cidr=10.43.0.0/16,2001:cafe:43::/112
   args:
     creates: /usr/local/bin/k3s
 
@@ -14,6 +14,20 @@
 - name: Trust service network source 10.43.0.0/16
   firewalld:
     source: 10.43.0.0/16
+    zone: trusted
+    permanent: yes
+    state: enabled
+
+- name: Trust service network source 2001:cafe:43::/112
+  firewalld:
+    source: 2001:cafe:43::/112
+    zone: trusted
+    permanent: yes
+    state: enabled
+
+- name: Trust service network source 2001:cafe:42::/56
+  firewalld:
+    source: 2001:cafe:42::/56
     zone: trusted
     permanent: yes
     state: enabled
