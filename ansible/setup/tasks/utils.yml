@@ -11,14 +11,14 @@
     state: present
     update_cache: true
 
-- name: Change SSH port in sshd_config
+- name: Change SSHD port in sshd_config
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^#?Port '
     line: "Port {{ sshd_port | mandatory }}"
     backup: yes
 
-- name: Open SSH port in firewalld
+- name: Open SSHD port in firewalld
   firewalld:
     port: "{{ sshd_port | mandatory }}/tcp"
     permanent: yes

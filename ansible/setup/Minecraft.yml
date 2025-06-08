@@ -3,7 +3,7 @@
   become: true
   vars:
     username: adigen
-    ssh_port: "{{ lookup('env', 'SSH_PORT') }}"
+    sshd_port: "{{ lookup('env', 'SSHD_PORT') }}"
     network_interface: ens18
 
   tasks:
