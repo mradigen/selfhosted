@@ -1,0 +1,12 @@
+# /etc/systemd/system/socat-80.service
+[Unit]
+Description=Socat TCP port forward :80 -> vyria.phy0.in:80
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/socat TCP4-LISTEN:80,fork,reuseaddr "TCP6:vyria.phy0.in:80"
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

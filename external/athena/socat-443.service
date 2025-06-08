@@ -1,0 +1,12 @@
+# /etc/systemd/system/socat-443.service
+[Unit]
+Description=Socat TCP port forward :443 -> vyria.phy0.in:443
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/socat TCP4-LISTEN:443,fork,reuseaddr "TCP6:vyria.phy0.in:443"
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
