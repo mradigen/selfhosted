@@ -11,6 +11,7 @@ resource "proxmox_vm_qemu" "Kubernetes1" {
   name = "Kubernetes1"
   desc = "Main Debian node running all services through Docker Compose"
   target_node = "Vyria"
+  vmid = 100
 
   onboot = true
   # QEMU agent
