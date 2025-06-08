@@ -4,13 +4,6 @@
   args:
     creates: /usr/local/bin/k3s
 
-- name: Open port 6443/tcp for API server
-  firewalld:
-    port: 6443/tcp
-    permanent: yes
-    immediate: yes
-    state: enabled
-
 - name: Trust pod network source 10.42.0.0/16
   firewalld:
     source: 10.42.0.0/16
@@ -23,4 +16,18 @@
     source: 10.43.0.0/16
     zone: trusted
     permanent: yes
+    state: enabled
+
+- name: Open HTTP in firewalld
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Open HTTPS in firewalld
+  firewalld:
+    port: 443/tcp
+    permanent: yes
+    immediate: yes
     state: enabled

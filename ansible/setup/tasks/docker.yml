@@ -53,7 +53,7 @@
     line: "FirewallBackend=iptables"
     backup: yes
 
-## IMPORTANT, need to add docker0 to trusted zone, but cant do that before docker0 is created by docker daemon
+# Cannot add docker0 to firewalld trusted zone before docker has created the interface
 - name: Wait for docker0 interface to exist
   wait_for:
     path: /sys/class/net/docker0

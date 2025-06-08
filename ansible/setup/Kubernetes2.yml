@@ -1,5 +1,5 @@
-- name: Setup Kubernetes1
-  hosts: kubernetes1
+- name: Setup Kubernetes2
+  hosts: kubernetes2
   become: true
   vars:
     username: adigen
@@ -14,5 +14,6 @@
     - import_tasks: tasks/firewalld.yml
     - import_tasks: tasks/utils.yml
     - import_tasks: tasks/user.yml
+    - import_tasks: tasks/docker.yml
     - import_tasks: tasks/tailscale.yml
     - import_tasks: tasks/k3s.yml

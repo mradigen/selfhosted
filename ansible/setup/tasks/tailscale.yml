@@ -1,5 +1,5 @@
 - name: Install Tailscale
-  shell: curl -fsSL https://tailscale.com/install.sh | sh
+  shell: wget -qO- https://tailscale.com/install.sh | sh
   args:
     creates: /usr/sbin/tailscaled
 

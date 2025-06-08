@@ -12,6 +12,7 @@ ansible/
 │   └── tasks
 │       └── docker-env-vars.yml         # The actual task of fetching and updating, cause ansible can't `loop` over `block`
 └── setup                               # Playbooks used to setup the nodes
+	├── inventory.ini					# Inventory of the nodes during setup
     ├── Kubernetes1.yml                 # k3s first node
     ├── Minecraft.yml                   # Minecraft node
     ├── Vyria.yml                       # Main docker node
