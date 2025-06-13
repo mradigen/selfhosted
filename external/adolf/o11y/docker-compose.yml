@@ -22,10 +22,9 @@ services:
     volumes:
       - ./grafana/data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    ports:
-      - 4000:3000
+    network_mode: host # cause host network stuff
+    environment:
+      - GF_SERVER_HTTP_PORT=4000
 
   # alertmanager:
   #   image: prom/alertmanager:latest
