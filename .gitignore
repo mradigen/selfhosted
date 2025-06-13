@@ -28,4 +28,6 @@ credentials.pkr.hcl
 cloudflare-api-token.yml
 
 # Miscellaneous
+.vscode
+.ansible
 router/
