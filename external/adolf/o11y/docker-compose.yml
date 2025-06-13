@@ -1,8 +1,8 @@
-version: '3.7'
 services:
   prometheus:
     image: prom/prometheus:latest
     user: root
+    network_mode: host # cause tailscale
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/data:/prometheus
