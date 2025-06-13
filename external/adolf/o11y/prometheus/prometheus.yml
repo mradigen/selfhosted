@@ -6,9 +6,9 @@ scrape_configs:
   - job_name: 'node_exporters'
     static_configs:
       - targets:
-          - 'vyria:9220'
+          - 'https://exporter-vyria.phy0.in'
 
   - job_name: 'cadvisor'
     static_configs:
       - targets:
-          - 'vyria:9221'
+          - 'https://cadvisor.phy0.in'

@@ -5,10 +5,14 @@ services:
       - '--path.rootfs=/host'
     pid: host
     restart: unless-stopped
+    container_name: exporter-vyria
     volumes:
       - '/:/host:ro,rslave'
     ports:
       - 9220:9100
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.exporter-vyria.middlewares=tailscale
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -18,6 +22,10 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     restart: always
+    container_name: cadvisor
     privileged: true
     ports:
       - 9221:8080
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cadvisor.middlewares=tailscale
