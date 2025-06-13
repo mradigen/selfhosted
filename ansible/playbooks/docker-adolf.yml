@@ -1,0 +1,31 @@
+- name: Docker related tasks like updating
+  hosts: "{{ target_host | default('adolf') }}"
+
+  vars:
+    docker_services:
+      - vault
+      - o11y
+
+    home_path: "/home/adigen"
+    docker_home_path: "/home/adigen/external/adolf"
+    update_all_services: false
+
+  tasks:
+    - name: Pull from Github repository
+      git:
+        repo: "https://github.com/mradigen/selfhosted"
+        dest: "{{ home_path }}"
+        update: true
+
+    - name: "Restart service if update_all_service=true"
+      when: update_all_services
+      block:
+        - name: "Take service down: {{ service_name }}"
+          community.docker.docker_compose_v2:
+            project_src: "{{ docker_home_path }}/{{ service_name }}"
+            state: absent
+
+        - name: "Put service back up: {{ service_name }}"
+          community.docker.docker_compose_v2:
+            project_src: "{{ docker_home_path }}/{{ service_name }}"
+            state: present
