@@ -1,14 +1,3 @@
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
-
-scrape_configs:
-  - job_name: 'node_exporters'
-    static_configs:
-      - targets:
-          - 'https://exporter-vyria.phy0.in'
-
-  - job_name: 'cadvisor'
-    static_configs:
-      - targets:
-          - 'https://cadvisor.phy0.in'

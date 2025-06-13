@@ -8,11 +8,6 @@ services:
     container_name: exporter-vyria
     volumes:
       - '/:/host:ro,rslave'
-    ports:
-      - 9220:9100
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.exporter-vyria.middlewares=tailscale
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -24,8 +19,13 @@ services:
     restart: always
     container_name: cadvisor
     privileged: true
-    ports:
-      - 9221:8080
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.cadvisor.middlewares=tailscale
+
+  prometheus:
+    image: prom/prometheus:latest
+    user: root
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --enable-feature=agent
