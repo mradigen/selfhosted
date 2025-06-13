@@ -8,8 +8,10 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
-    ports:
-      - 9090:9090
+    network_mode: host # cause tailscale
+    dns:
+      - 100.100.100.100 # tailscale dns
+      - 1.1.1.1
 
   grafana:
     image: grafana/grafana:latest
@@ -20,8 +22,8 @@ services:
     volumes:
       - ./grafana/data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
-    # environment:
-    #   - GF_SECURITY_ADMIN_PASSWORD=ChangeMe
+    extra_hosts:
+      - host.docker.internal:host-gateway
     ports:
       - 4000:3000
 

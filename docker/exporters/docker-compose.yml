@@ -5,9 +5,10 @@ services:
       - '--path.rootfs=/host'
     pid: host
     restart: unless-stopped
-    container_name: exporter-vyria
     volumes:
-      - '/:/host:ro,rslave'
+      - /:/host:ro,rslave
+    ports:
+      - 9220:9100
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -17,15 +18,6 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     restart: always
-    container_name: cadvisor
     privileged: true
-
-  prometheus:
-    image: prom/prometheus:latest
-    user: root
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ./prometheus/data:/prometheus
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --enable-feature=agent
+    ports:
+      - 9221:8080
