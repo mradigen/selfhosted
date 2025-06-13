@@ -8,6 +8,7 @@
       - balti-minio
       - borgmatic
       - chota
+      - exporters
       - flatnotes+syncthing
       - headscale
       - immich
@@ -18,6 +19,7 @@
       - tui_suite
       - vaultwarden
 
+    home_path: "/home/adigen"
     docker_home_path: "/home/adigen/docker"
     update_all_services: false
 
@@ -25,6 +27,12 @@
     vault_token: "{{ lookup('env','VAULT_TOKEN') }}"  # Not used as ansible_hashi_vault_token is set in inventory.ini
 
   tasks:
+    - name: Pull from Github repository
+      git:
+        repo: "https://github.com/mradigen/selfhosted"
+        dest: "{{ home_path }}"
+        update: true
+
     - name: Fetch and set vars
       loop: "{{ docker_services }}"
       include_tasks: tasks/docker-env-vars.yml

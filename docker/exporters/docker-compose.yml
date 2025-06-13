@@ -8,10 +8,10 @@ services:
     volumes:
       - '/:/host:ro,rslave'
     ports:
-      - 9220:9220
+      - 9220:9100
 
   cadvisor:
-    image: google/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:latest
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
@@ -20,4 +20,4 @@ services:
     restart: always
     privileged: true
     ports:
-      - 9221:9221
+      - 9221:8080
