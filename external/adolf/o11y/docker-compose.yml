@@ -2,6 +2,7 @@ version: '3.7'
 services:
   prometheus:
     image: prom/prometheus:latest
+    user: root
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/data:/prometheus
@@ -11,6 +12,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
+    user: root
     depends_on:
       - prometheus
       # - loki
