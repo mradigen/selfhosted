@@ -1,0 +1,57 @@
+version: '3.7'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+      # - loki
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    # environment:
+    #   - GF_SECURITY_ADMIN_PASSWORD=ChangeMe
+    ports:
+      - 3000:3000
+
+  # alertmanager:
+  #   image: prom/alertmanager:latest
+  #   container_name: alertmanager
+  #   volumes:
+  #     - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+  #     - alertmanager_data:/alertmanager
+  #   command:
+  #     - --config.file=/etc/alertmanager/alertmanager.yml
+  #     - --storage.path=/alertmanager
+  #   ports:
+  #     - 9093:9093
+
+  # loki:
+  #   image: grafana/loki:2.8.2
+  #   container_name: loki
+  #   volumes:
+  #     - ./loki/config.yml:/etc/loki/config.yml:ro
+  #     - loki_data:/loki
+  #   command:
+  #     - -config.file=/etc/loki/config.yml
+  #   ports:
+  #     - 3100:3100
+
+  # tempo:
+  #   image: grafana/tempo:2.5.0
+  #   container_name: tempo
+  #   volumes:
+  #     - ./tempo/config.yaml:/etc/tempo/config.yaml:ro
+  #     - tempo_data:/tempo
+  #   command:
+  #     - -config.file=/etc/tempo/config.yaml
+  #   ports:
+  #     - 3200:3200
