@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-phy0-in
+spec:
+  secretName: phy0-in
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - '*.phy0.in'
+    - 'phy0.in'

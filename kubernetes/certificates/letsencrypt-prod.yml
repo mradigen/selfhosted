@@ -1,0 +1,26 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: example@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-private-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: redirect-https
+# spec:
+#   redirectScheme:
+#     scheme: https
+#     permanent: true
