@@ -23,3 +23,9 @@ packer_cache/
 output-*
 *downloaded_iso_path*
 credentials.pkr.hcl
+
+# Kubernetes
+cloudflare-api-token.yml
+
+# Miscellaneous
+router/
