@@ -1,0 +1,23 @@
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    ports:
+      - 9220:9220
+
+  cadvisor:
+    image: google/cadvisor:latest
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    restart: always
+    privileged: true
+    ports:
+      - 9221:9221
