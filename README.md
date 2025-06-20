@@ -10,6 +10,13 @@
 
 </div>
 
+<details>
+<summary><h2>📐 <b>Infra Diagram<b> </h2></summary>
+
+![Architecture](.github/architecture.webp)
+  
+</details>
+
 ## 📖 **Overview**
 
 This repository contains the IaC ([Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_code)) configuration for my homelab.
@@ -20,7 +27,7 @@ As of now, all services are **containerized** using **Docker Compose**. I plan t
 
 All environment variables and secrets and stored in **HashiCorp's Vault**, and is hosted on an external server that is manually managed as of now. An **Ansible** playbook fetches the required environment variables and sets them in `.env` files for **Docker Compose**. Refer to `external/` for further details.
 
-## 🛠️ **Infrastructure Stack**
+## 🛠 **Infrastructure Stack**
 
 ### **Tools & Automation**
 
@@ -63,6 +70,13 @@ All environment variables and secrets and stored in **HashiCorp's Vault**, and i
 Each directory contains its own README with detailed information about the configurations and usage.
 
 ## 🖥️ **Hardware**
+
+<details>
+  <summary><strong>Setup</strong></summary>
+
+![Setup](.github/setup.webp)
+  
+</details>
 
 <details>
   <summary><strong>Physical Hosts</strong></summary>
