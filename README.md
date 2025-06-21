@@ -11,7 +11,7 @@
 </div>
 
 <details>
-<summary><h2>📐 <b>Infra Diagram<b> </h2></summary>
+<summary><h2>📐 <b>Infra Diagram</b></h2></summary>
 
 ![Architecture](.github/architecture.webp)
   
