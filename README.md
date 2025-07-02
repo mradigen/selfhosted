@@ -12,7 +12,7 @@
 
 <h2>📐 <b>Diagram</b> </h2>
 
-![Architecture](.github/architecture.webp)
+![Architecture](.github/architecture.webp?)
 
 ## 📖 **Overview**
 
