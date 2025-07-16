@@ -2,11 +2,12 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: home
+    restart: unless-stopped
     volumes:
       - ${DATA_PATH:?}:/app/config
       - /var/run/docker.sock:/var/run/docker.sock
+    network_mode: host
     environment:
       HOMEPAGE_ALLOWED_HOSTS: home.phy0.in
     labels:
-      - "traefik.enable=true"
-    restart: unless-stopped
+      - traefik.enable=true

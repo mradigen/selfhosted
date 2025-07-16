@@ -11,6 +11,7 @@
       - exporters
       - flatnotes+syncthing
       - headscale
+      - homepage
       - immich
       - kachra
       - n8n
