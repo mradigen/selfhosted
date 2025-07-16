@@ -11,3 +11,4 @@ services:
       HOMEPAGE_ALLOWED_HOSTS: home.phy0.in
     labels:
       - traefik.enable=true
+      - traefik.http.routers.homepage.rule=Host(`home.phy0.in`)

@@ -9,9 +9,6 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
     network_mode: host # cause tailscale
-    dns:
-      - 100.100.100.100 # tailscale dns
-      - 1.1.1.1
 
   grafana:
     image: grafana/grafana:latest
