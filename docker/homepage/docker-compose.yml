@@ -3,8 +3,6 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: home
     restart: unless-stopped
-    expose:
-      - 3000
     volumes:
       - ${DATA_PATH:?}:/app/config
       - /var/run/docker.sock:/var/run/docker.sock
@@ -13,3 +11,4 @@ services:
       HOMEPAGE_ALLOWED_HOSTS: home.phy0.in
     labels:
       - traefik.enable=true
+      - traefik.http.services.home.loadbalancer.server.port=8080
