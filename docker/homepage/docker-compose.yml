@@ -11,4 +11,4 @@ services:
       HOMEPAGE_ALLOWED_HOSTS: home.phy0.in
     labels:
       - traefik.enable=true
-      - traefik.http.services.home.loadbalancer.server.port=8080
+      - traefik.http.services.home.loadbalancer.server.port=3000
