@@ -1,0 +1,44 @@
+name: Run Ansible Playbook
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-playbook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VYRIA_SSH_PRIVATE_KEY }}
+
+      - name: Add known hosts
+        run: ssh-keyscan -H "vyria.phy0.in" >> ~/.ssh/known_hosts
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook \
+            -i "vyria.phy0.in," \
+            --extra-vars "ansible_user=${{ secrets.ANSIBLE_USER }} ansible_port=${{ secrets.ANSIBLE_PORT }}" \
+            --extra-vars "ansible_hashi_vault_url=${{ secrets.ANSIBLE_HASHI_VAULT_URL }} ansible_hashi_vault_token=${{ secrets.ANSIBLE_HASHI_VAULT_TOKEN }}" \
+            --extra-vars "ansible_sudo_pass=${{ secrets.ANSIBLE_SUDO_PASS }}" \
+            ansible/playbooks/docker-vyria.yml
