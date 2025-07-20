@@ -40,7 +40,9 @@ jobs:
           python-version: '3.x'
 
       - name: Install Ansible
-        run: pip install ansible
+        run: |
+          pip install ansible hvac
+          ansible-galaxy collection install community.hashi_vault
 
       - name: Run Ansible playbook
         run: |
