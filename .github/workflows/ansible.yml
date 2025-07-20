@@ -25,7 +25,7 @@ jobs:
           args: --login-server=${{ secrets.TAILSCALE_URL }}
 
       - name: Add known hosts
-        run: ssh-keyscan -H "vyria" >> ~/.ssh/known_hosts
+        run: echo -E "[vyria]:2304 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA1x+gmyzqH+EfG07eYS6XkteT2aqoYKmMW78fgfFp1M\n[vyria]:2304 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCReO4l2yjTR4MWJSzTFMol+Wj1VgVPLGQFpt1Fcm2tLxv+BVQ7TGGvevIbTLXWLy7SODOR4+NJuyjtbfx50jCSNkhzXH9jdfCIAkZcotwObTOFkt1PRLW9ILH3oRtwlovDmwDs9DkLmmXZupOQLb6RmY5x1QQj3+LLlPVByahfiLdt4HyAWKL6YtL63S1Ls4ioFl+QFApkXqm5Of5GrYMz74vsh8JmBDjN3g8oH0a23520MKyiJfz4VgYXH+hevnUx+gx3PxMHJz4TwsOefNhuGdzm4/2m6J1ALPfuu4BGgvHYV/FLE0FG+ooDNTIcFwaFrxSVL6oJPK5Y/Cdcb3C3MwLoggk67xjOkqlIx8Q1QOzIPUt4hG6ZFwHWyhjXgqNgT1sieITG3RQB22+CeSLpBdDDFvMtkYeNEjJy5sHVXKukcDojjNA/tWMKKCeXkQBtOyFQqWgAdQdyeMondNCWIdNLKVsUSi7tF/mOuNK7FGnncacuPhh4zwngPF21UMs=\n[vyria]:2304 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDryde6NZ7Sr8t0FY+8Z0Xm8FIvOIsYkqkeVJvV8s16uuTl0JVrKZtbM5Htsp4st8VLj5ZJE2vDXgM3lUZMVnhA=" > ~/.ssh/known_hosts
 
       - name: Set up Python
         uses: actions/setup-python@v5
