@@ -18,8 +18,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.VYRIA_SSH_PRIVATE_KEY }}
 
+      - name: Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          args: --login-server=${{ secrets.TAILSCALE_URL }}
+
       - name: Add known hosts
-        run: ssh-keyscan -H "vyria.phy0.in" >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H "vyria" >> ~/.ssh/known_hosts
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,15 +35,10 @@ jobs:
       - name: Install Ansible
         run: pip install ansible
 
-      - name: Tailscale
-        uses: tailscale/github-action@v3
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
       - name: Run Ansible playbook
         run: |
           ansible-playbook \
-            -i "vyria.phy0.in," \
+            -i "vyria," \
             --extra-vars "ansible_user=${{ secrets.ANSIBLE_USER }} ansible_port=${{ secrets.ANSIBLE_PORT }}" \
             --extra-vars "ansible_hashi_vault_url=${{ secrets.ANSIBLE_HASHI_VAULT_URL }} ansible_hashi_vault_token=${{ secrets.ANSIBLE_HASHI_VAULT_TOKEN }}" \
             --extra-vars "ansible_sudo_pass=${{ secrets.ANSIBLE_SUDO_PASS }}" \

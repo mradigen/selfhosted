@@ -31,3 +31,4 @@ cloudflare-api-token.yml
 .vscode
 .ansible
 router/
+docker/homepage/nginx.conf
