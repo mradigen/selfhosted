@@ -15,8 +15,7 @@ services:
     container_name: home # this container is named home for traefik subdomain.
     volumes:
       - ${DATA_PATH:?}/nginx.conf:/etc/nginx/nginx.conf:ro
-    ports: # this is exposed for homepage to fetch dav data
-      - "3001:80"
+    # nginx http listen port is configured in nginx.conf
     restart: unless-stopped
     network_mode: host # inorder to access homepage host 3000 port
     labels:
