@@ -20,3 +20,4 @@ services:
     network_mode: host # inorder to access homepage host 3000 port
     labels:
       - traefik.enable=true
+      - traefik.http.services.home.loadbalancer.server.port=3001
