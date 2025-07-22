@@ -18,6 +18,6 @@ services:
     ports: # this is exposed for homepage to fetch dav data
       - "3001:80"
     restart: unless-stopped
-    # No host network nor host.docker.internal as host ports are accessed via tailscale (vyria)
+    network_mode: host # inorder to access homepage host 3000 port
     labels:
       - traefik.enable=true
