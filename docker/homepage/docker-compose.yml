@@ -6,13 +6,10 @@ services:
     volumes:
       - ${DATA_PATH:?}:/app/config
       - /var/run/docker.sock:/var/run/docker.sock
-    network_mode: host
+    network_mode: host # For using host tailscale
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "home.phy0.in,vyria:3000"
       # HOMEPAGE_ALLOWED_IPS: ${TAILSCALE_ALLOWED_IPS}
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.services.home.loadbalancer.server.port=3000
     
   proxy: # need this cause homepage doesn't support basic auth on caldav
     image: nginx:alpine
@@ -21,3 +18,5 @@ services:
     ports:
       - "3001:80"
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
