@@ -1,7 +1,6 @@
 services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
-    container_name: home
     restart: unless-stopped
     volumes:
       - ${DATA_PATH:?}:/app/config
@@ -13,10 +12,12 @@ services:
     
   proxy: # need this cause homepage doesn't support basic auth on caldav
     image: nginx:alpine
+    container_name: home # this container is named home for traefik subdomain.
     volumes:
       - ${DATA_PATH:?}/nginx.conf:/etc/nginx/nginx.conf:ro
-    ports:
+    ports: # this is exposed for homepage to fetch dav data
       - "3001:80"
     restart: unless-stopped
+    # No host network nor host.docker.internal as host ports are accessed via tailscale (vyria)
     labels:
       - traefik.enable=true
