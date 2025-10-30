@@ -4,7 +4,7 @@
   vars:
     username: adigen
     sshd_port: "{{ lookup('env', 'SSHD_PORT') }}"
-    network_interface: ens18
+    network_interface: eth0
     tailscale_preauthkey: "{{ lookup('env', 'TAILSCALE_PREAUTHKEY') }}"
 
   tasks:
@@ -12,7 +12,7 @@
     - import_tasks: tasks/utils.yml
     - import_tasks: tasks/user.yml
     - import_tasks: tasks/docker.yml
-    - import_tasks: tasks/tailscale.yml
+    # - import_tasks: tasks/tailscale.yml
 
     - name: Open HTTP in firewalld
       firewalld:
