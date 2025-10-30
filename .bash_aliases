@@ -8,6 +8,7 @@ export PATH=$PATH:/usr/local/go/bin:/home/adigen/.local/bin
 alias headscale="docker exec headscale headscale"
 alias kubectl="sudo k3s kubectl"
 alias d="docker"
+alias dc="docker compose"
 
 # Additional features
 bind 'set show-all-if-ambiguous on'
