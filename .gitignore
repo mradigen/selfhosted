@@ -32,3 +32,4 @@ cloudflare-api-token.yml
 .ansible
 router/
 docker/homepage/nginx.conf
+notes/
