@@ -7,6 +7,7 @@ export PATH=$PATH:/usr/local/go/bin:/home/adigen/.local/bin
 
 alias headscale="docker exec headscale headscale"
 alias kubectl="sudo k3s kubectl"
+alias r="ranger"
 alias d="docker"
 alias dc="docker compose"
 
