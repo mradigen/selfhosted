@@ -8,6 +8,8 @@
       - sudo
       - ranger
       - neovim
+      - zoxide
+      - fzf
     state: present
     update_cache: true
 
