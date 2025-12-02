@@ -1,0 +1,12 @@
+pane_frames false
+simplified_ui true
+show_startup_tips false
+default_layout "compact"
+
+keybinds {
+	normal {
+		bind "Ctrl Shift d" {
+			NewPane
+		}
+	}
+}
