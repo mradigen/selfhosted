@@ -6,6 +6,7 @@
 - name: Add masquerade rule to public zone
   firewalld:
     zone: public
+    target: DROP
     masquerade: yes
     permanent: yes
     immediate: yes
