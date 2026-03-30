@@ -1,6 +1,6 @@
 services:
   minio:
-    image: minio/minio
+    image: minio/minio:RELEASE.2025-01-20T14-49-07Z
     command: server /data --console-address ":9001"
     volumes:
       - ${DATA_PATH:?}/minio-data:/data
@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
 
   minio-provision:
-    image: minio/mc
+    image: minio/mc:RELEASE.2025-01-17T23-25-50Z
     depends_on:
       - minio
     volumes:

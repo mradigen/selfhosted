@@ -1,10 +1,11 @@
 services:
   traefik:
     container_name: traefik
-    image: traefik:v3.3
+    image: traefik:v3.6
     restart: always
     command:
       #- "--log.level=DEBUG"
+      #- "--accesslog=true"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"

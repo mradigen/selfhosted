@@ -1,7 +1,10 @@
 services:
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
+    image: ghcr.io/gethomepage/homepage:v1.12.1
     restart: unless-stopped
+    dns:
+      - 100.100.100.100
+      - 1.1.1.1
     volumes:
       - ${DATA_PATH:?}:/app/config
       - /var/run/docker.sock:/var/run/docker.sock

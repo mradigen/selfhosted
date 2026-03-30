@@ -1,7 +1,7 @@
 pane_frames false
-simplified_ui true
+#simplified_ui true
 show_startup_tips false
-default_layout "compact"
+#default_layout "compact"
 
 keybinds {
 	normal {
