@@ -4,13 +4,13 @@
 #      so borgmatic carries a clean copy off-site along with the rest of /docker.
 #   2. Copies Hermes' text "brain" (soul, memories, skills, cron jobs, config) for the main
 #      home and every profile into the hermes-home git checkout, and pushes it.
-# Secrets never go to git: config.yaml is redacted, and the push is refused if any value
-# from a .env or auth.json shows up anywhere in the checkout.
+# Secrets never go to git: config.yaml secret keys are redacted, and any value from a .env
+# secret key or auth.json that shows up anywhere in the checkout is replaced with <redacted>.
 set -euo pipefail
 
 SRC=${HERMES_DATA:-/docker/hermes}
 REPO=${HERMES_HOME_REPO:-/docker/hermes-home}
-KEEP_SNAPSHOTS=7
+KEEP_SNAPSHOTS=3 # ~300 MB each; borgmatic keeps the long history
 
 docker exec hermes hermes backup -q -l nightly >/dev/null
 ls -1d "$SRC"/state-snapshots/*-nightly 2>/dev/null | sort | head -n -"$KEEP_SNAPSHOTS" | xargs -r rm -rf
@@ -80,17 +80,22 @@ for old in "$REPO"/profiles/*/; do
   [ -d "$old" ] && [ ! -d "$SRC/profiles/$(basename "$old")" ] && rm -rf "$old"
 done
 
-# Refuse to commit if any secret value leaked into the checkout.
 python3 - "$SRC" "$REPO" <<'PY'
-import glob, json, os, sys
+import glob, json, os, re, sys
 src, repo = sys.argv[1], sys.argv[2]
+secret_name = re.compile(r'KEY|TOKEN|SECRET|PASS|AUTH|PRIVATE|CREDENTIAL|COOKIE', re.I)
 values = set()
 for env in glob.glob(f'{src}/.env') + glob.glob(f'{src}/profiles/*/.env'):
     for line in open(env, errors='ignore'):
         if '=' in line and not line.lstrip().startswith('#'):
-            v = line.split('=', 1)[1].strip().strip('"\'')
-            if len(v) >= 12:
+            k, v = line.split('=', 1)
+            v = v.strip().strip('"\'')
+            if secret_name.search(k) and len(v) >= 12:
                 values.add(v)
+def token_like(s):
+    # auth.json also holds env var names, URLs and timestamps; real tokens are long, unspaced, alphanumeric mixes.
+    return (len(s) >= 20 and ' ' not in s and not s.startswith('http')
+            and re.search(r'\d', s) and re.search(r'[a-zA-Z]', s) and not re.fullmatch(r'[\dT:.+Z-]+', s))
 def strings(x):
     if isinstance(x, str): yield x
     elif isinstance(x, dict):
@@ -99,17 +104,24 @@ def strings(x):
         for v in x: yield from strings(v)
 for auth in glob.glob(f'{src}/auth.json') + glob.glob(f'{src}/profiles/*/auth.json'):
     try:
-        values.update(s for s in strings(json.load(open(auth))) if len(s) >= 20)
+        values.update(s for s in strings(json.load(open(auth))) if token_like(s))
     except Exception:
         pass
+# Secrets pasted into chat end up in memories and facts; blank them in the git copy only.
 for root, dirs, files in os.walk(repo):
     dirs[:] = [d for d in dirs if d != '.git']
     for f in files:
         path = os.path.join(root, f)
-        text = open(path, errors='ignore').read()
-        for v in values:
-            if v in text:
-                sys.exit(f'secret value found in {os.path.relpath(path, repo)}; not committing')
+        try:
+            text = open(path, encoding='utf-8').read()
+        except UnicodeDecodeError:
+            continue
+        hits = [v for v in values if v in text]
+        if hits:
+            for v in hits:
+                text = text.replace(v, '<redacted>')
+            open(path, 'w', encoding='utf-8').write(text)
+            print(f'redacted {len(hits)} secret value(s) in {os.path.relpath(path, repo)}')
 PY
 
 cd "$REPO"
