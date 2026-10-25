@@ -5,7 +5,7 @@
 #   2. Copies Hermes' text "brain" (soul, memories, skills, cron jobs, config) for the main
 #      home and every profile into the hermes-home git checkout, and pushes it.
 # Secrets never go to git: config.yaml secret keys are redacted, and any value from a .env
-# secret key or auth.json that shows up anywhere in the checkout is replaced with <redacted>.
+# secret key or auth.json, or anything shaped like a known token, is replaced with <redacted>.
 set -euo pipefail
 
 SRC=${HERMES_DATA:-/docker/hermes}
@@ -107,6 +107,11 @@ for auth in glob.glob(f'{src}/auth.json') + glob.glob(f'{src}/profiles/*/auth.js
         values.update(s for s in strings(json.load(open(auth))) if token_like(s))
     except Exception:
         pass
+# Well-known token shapes, for secrets that aren't in any .env (e.g. pasted into chat and memorised).
+token_pattern = re.compile(
+    r'(Bearer\s+)[A-Za-z0-9._~+/=-]{16,}'
+    r'|()\b(?:laya-[A-Za-z0-9_-]{16,}|sk-[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}'
+    r'|AIza[0-9A-Za-z_-]{30,}|xox[abprs]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]+)')
 # Secrets pasted into chat end up in memories and facts; blank them in the git copy only.
 for root, dirs, files in os.walk(repo):
     dirs[:] = [d for d in dirs if d != '.git']
@@ -117,11 +122,12 @@ for root, dirs, files in os.walk(repo):
         except UnicodeDecodeError:
             continue
         hits = [v for v in values if v in text]
-        if hits:
-            for v in hits:
-                text = text.replace(v, '<redacted>')
+        for v in hits:
+            text = text.replace(v, '<redacted>')
+        text, n = token_pattern.subn(lambda m: (m.group(1) or '') + '<redacted>', text)
+        if hits or n:
             open(path, 'w', encoding='utf-8').write(text)
-            print(f'redacted {len(hits)} secret value(s) in {os.path.relpath(path, repo)}')
+            print(f'redacted {len(hits) + n} secret value(s) in {os.path.relpath(path, repo)}')
 PY
 
 cd "$REPO"
