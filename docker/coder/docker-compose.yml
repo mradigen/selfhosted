@@ -1,0 +1,22 @@
+services:
+  # Claude Code worker. Idle until Hermes runs `docker exec -u node coder claude -p ...`
+  # (see the `ship` skill in hermes-home). Not exposed on any port.
+  coder:
+    build: .
+    image: hermes-coder:local
+    container_name: coder
+    restart: unless-stopped
+    volumes:
+      - ${DATA_PATH:?}/repos:/repos
+      - ${DATA_PATH:?}/home:/home/node
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:?}
+      GH_TOKEN: ${GH_TOKEN:?}
+      GIT_AUTHOR_NAME: ${GIT_NAME:?}
+      GIT_AUTHOR_EMAIL: ${GIT_EMAIL:?}
+      GIT_COMMITTER_NAME: ${GIT_NAME:?}
+      GIT_COMMITTER_EMAIL: ${GIT_EMAIL:?}
+      DISABLE_AUTOUPDATER: 1 # rebuild the image to update Claude Code
+      TZ: Asia/Kolkata
+    labels:
+      - traefik.enable=false

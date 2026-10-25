@@ -11,6 +11,8 @@
       - exporters
       - flatnotes+syncthing
       - headscale
+      # - hermes  # enable once `vault kv put docker/hermes ...` holds its .env (adolf/Vault was unreachable on 2026-10-25)
+      # - coder   # same, `docker/coder`
       - homepage
       - immich
       - kachra

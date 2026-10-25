@@ -1,0 +1,66 @@
+services:
+  hermes:
+    image: nousresearch/hermes-agent:main
+    container_name: hermes
+    restart: unless-stopped
+    command: gateway run
+    shm_size: 1g
+    volumes:
+      - ${DATA_PATH:?}:/opt/data
+      - /home/adigen:/host/home/adigen:rw
+      # Lets Hermes drive the coder container (docker exec -u node coder claude -p ...)
+      - /var/run/docker.sock:/var/run/docker.sock
+      - hermes-agent-src:/opt/hermes
+      - /docker:/host/docker:ro
+    environment:
+      HERMES_DASHBOARD: 1
+      HERMES_DASHBOARD_HOST: 0.0.0.0
+      HERMES_DASHBOARD_BASIC_AUTH_USERNAME: ${DASH_USER:?}
+      HERMES_DASHBOARD_BASIC_AUTH_PASSWORD: ${DASH_PASS:?}
+      HERMES_UID: ${UID:-10000}
+      HERMES_GID: ${GID:-10000}
+    ports:
+      - 9119:9119
+      - 8642:8642
+    networks:
+      - default
+      - paperless
+    labels:
+      - traefik.enable=true
+      #- traefik.http.routers.hermes.middlewares=tailscale
+      - traefik.http.services.hermes.loadbalancer.server.port=9119
+      # - traefik.http.middlewares.tailscale.ipallowlist.sourcerange=${TAILSCALE_ALLOWED_IPS}
+      # - traefik.http.routers.hermes.middlewares=tailscale@docker
+
+  hermes-webui:
+    image: ghcr.io/nesquena/hermes-webui:latest
+    container_name: hermes-webui
+    restart: unless-stopped
+    depends_on:
+      - hermes
+    ports:
+      - 8787:8787
+    volumes:
+      - ${DATA_PATH:?}:/home/hermeswebui/.hermes # same host dir the agent uses
+      - hermes-agent-src:/home/hermeswebui/.hermes/hermes-agent:ro
+      - ${HERMES_WORKSPACE:?}:/workspace
+    environment:
+      HERMES_WEBUI_HOST: 0.0.0.0
+      HERMES_WEBUI_PORT: 8787
+      HERMES_WEBUI_STATE_DIR: /home/hermeswebui/.hermes/webui
+      HERMES_API_URL: http://hermes:8642 # service name = "hermes", not hermes-agent
+      WANTED_UID: ${UID:-10000}
+      WANTED_GID: ${GID:-10000}
+    networks:
+      - default
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.hermes-webui.middlewares=tailscale
+
+volumes:
+  hermes-agent-src:
+
+networks:
+  paperless:
+    name: paperless-ng_default
+    external: true
