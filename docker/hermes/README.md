@@ -5,6 +5,15 @@ dashboard on 9119) and [hermes-webui](https://github.com/nesquena/hermes-webui) 
 Data: `/docker/hermes`, mounted at `/opt/data`. Coding tasks go to the `coder` stack
 (`docker/coder`) through the `ship` skill.
 
+## Profiles
+
+`default` (owner) and `mom`, both on one gateway (`gateway.multiplex_profiles`), with WhatsApp chats
+routed by `gateway.profile_routes`. Only the default profile may bind ports: a secondary profile
+must set `platforms.webhook.enabled: false` and `platforms.api_server.enabled: false` in its
+`config.yaml` (an env flag isn't enough), or the gateway skips it at startup. The unused
+`dev`, `frontend`, `life` and `trader` profiles were removed on 2026-10-26; the tarball is in
+`/docker/hermes/archive/`.
+
 ## Backups
 
 - `hermes-home-sync.sh`, from adigen's crontab at 00:00 host time (before borgmatic):
