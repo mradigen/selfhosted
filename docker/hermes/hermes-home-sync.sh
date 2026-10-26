@@ -90,7 +90,18 @@ for env in glob.glob(f'{src}/.env') + glob.glob(f'{src}/profiles/*/.env'):
         if '=' in line and not line.lstrip().startswith('#'):
             k, v = line.split('=', 1)
             v = v.strip().strip('"\'')
-            if secret_name.search(k) and len(v) >= 12:
+            if secret_name.search(k) and len(v) >= 8:
+                values.add(v)
+# Inline config secrets (e.g. MCP server env passwords) also get copied into memories by the agent.
+config_secret = re.compile(r'^\s*-?\s*[\w.-]*(?:key|token|secret|password|passwd|credential)[\w.-]*\s*:\s*(\S.*)$', re.I)
+for cfg in glob.glob(f'{src}/config.yaml') + glob.glob(f'{src}/profiles/*/config.yaml'):
+    for line in open(cfg, errors='ignore'):
+        m = config_secret.match(line.rstrip('\n'))
+        if m:
+            v = m.group(1).strip().strip('"\'')
+            # Skip numbers, env var names and plain words (provider names etc.); keep password-like strings.
+            if (len(v) >= 8 and ' ' not in v and not v.startswith('${') and not re.fullmatch(r'-?[\d.]+', v)
+                    and not re.fullmatch(r'[A-Z][A-Z0-9_]*', v) and re.search(r'[\d@#$%^&*!+=/]', v)):
                 values.add(v)
 def token_like(s):
     # auth.json also holds env var names, URLs and timestamps; real tokens are long, unspaced, alphanumeric mixes.
